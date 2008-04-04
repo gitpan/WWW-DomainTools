@@ -1,0 +1,55 @@
+NAME
+    WWW::DomainTools - DomainTools.com XML API interface
+
+SYNOPSIS
+     use WWW::DomainTools qw(search_engine name_spinner);
+
+     my $repsonse = search_engine(
+            q => 'example.com',
+            ext => 'COM|NET|ORG|INFO'
+     );
+
+     # OO
+     my $obj = WWW::DomainTools->new(
+                      key => '12345',
+                      partner => 'yourname',
+                      customer_ip => '1.2.3.4'
+     );
+
+DESCRIPTION
+    This module allows you to use the name spinner and whois search
+    available on domaintools.com.
+
+    These methods are available as both class and object methods. Nothing is
+    exported by default.
+
+EXPORTS
+    None by default.
+
+    Allowed:
+
+     - search_engine
+     - name_spinner
+
+SEE ALSO
+    WWW::DomainTools::SearchEngine WWW::DomainTools::NameSpinner
+
+BUGS
+    Please report bugs using the CPAN Request Tracker at
+    <http://rt.cpan.org/>
+
+AUTHOR
+    David Bartle <captindave@gmail.com>
+
+COPYRIGHT
+    This program is free software; you can redistribute it and/or modify it
+    under the same terms as Perl itself.
+
+    I am not affiliated with Domain Tools or Name Intelligence. The use of
+    their API's are governed by their own terms of service:
+
+    http://www.domaintools.com/members/tos.html
+
+    The full text of the license can be found in the LICENSE file included
+    with this module.
+
