@@ -3,7 +3,7 @@ package WWW::DomainTools::NameSpinner;
 BEGIN {
     use Exporter ();
     use vars qw ($VERSION @ISA @EXPORT @EXPORT_OK %EXPORT_TAGS);
-    $VERSION     = "1.01";
+    $VERSION     = "1.03";
     @ISA         = qw (Exporter);
     @EXPORT      = qw ();
     @EXPORT_OK   = qw ();
@@ -21,10 +21,10 @@ WWW::DomainTools::NameSpinner - Suggest other domain names
 
   use WWW::DomainTools::NameSpinner;
 
-  my $api = new WWW::DomainTools::NameSpinner->new(
-                key => '12345',
-                partner => 'yourname',
-                customer_ip => '1.2.3.4'
+  my $api = WWW::DomainTools::NameSpinner->new(
+        key => '12345',
+        partner => 'yourname',
+        customer_ip => '1.2.3.4'
   );
 
   my $res = $api->request(
@@ -98,6 +98,14 @@ is built by using L<XML::Simple>.
 The number of seconds that you want to wait before cancelling the HTTP request.
 
 default: 10 
+
+=item * lwp_ua
+
+An instance of L<LWP::UserAgent> to use for the requests.  This will allow you
+to set up an L<LWP::UserAgent> with all of the settings that you would like to
+use such as proxy settings etc.
+
+default: LWP::UserAgent->new
 
 =back
 

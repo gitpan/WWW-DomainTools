@@ -7,13 +7,35 @@ SYNOPSIS
      my $repsonse = search_engine(
             q => 'example.com',
             ext => 'COM|NET|ORG|INFO'
+            key => '12345',
+            partner => 'yourname',
+            customer_ip => '1.2.3.4'
      );
 
      # OO
-     my $obj = WWW::DomainTools->new(
-                      key => '12345',
-                      partner => 'yourname',
-                      customer_ip => '1.2.3.4'
+     my $obj = WWW::DomainTools::SearchEngine->new(
+            key => '12345',
+            partner => 'yourname',
+            customer_ip => '1.2.3.4'
+     );
+     my $response = $obj->request(
+            q => 'example.com',
+            ext => 'COM|NET|ORG|INFO'
+     );
+
+     # Custom LWP user agent
+     my $ua = LWP::UserAgent->new;
+     $ua->env_proxy(true);
+
+     my $obj = WWW::DomainTools::SearchEngine->new(
+            key => '12345',
+            partner => 'yourname',
+            customer_ip => '1.2.3.4',
+            lwp_ua => $ua
+     );
+     my $response = $obj->request(
+            q => 'example.com',
+            ext => 'COM|NET|ORG|INFO'
      );
 
 DESCRIPTION
@@ -31,12 +53,42 @@ EXPORTS
      - search_engine
      - name_spinner
 
+METHODS
+    search_engine ( url parameters hash )
+        The keys and values expected are documented on the Domain Tools
+        website. In addition the "search engine" specific parameters, you
+        need to pass the required parameters as documented in the
+        WWW::DomainTools::SearchEngine new() method.
+
+        If the request is successful, the return value is either a hash
+        reference or a string depending on the value of the 'format'
+        parameter to the constructor.
+
+        See the documentation for the new() method for more detailed
+        information about 'format' and other standard parameters.
+
+        If the HTTP request fails, this method will die.
+
+    name_spinner ( url parameters hash )
+        The keys and values expected are documented on the Domain Tools
+        website. In addition the "name spinner" specific parameters, you
+        need to pass the required parameters as documented in the
+        WWW::DomainTools::NameSpinner new() method.
+
+        If the request is successful, the return value is either a hash
+        reference or a string depending on the value of the 'format'
+        parameter to the constructor.
+
+        See the documentation for the new() method for more detailed
+        information about 'format' and other standard parameters.
+
+        If the HTTP request fails, this method will die.
+
 SEE ALSO
     WWW::DomainTools::SearchEngine WWW::DomainTools::NameSpinner
 
 BUGS
-    Please report bugs using the CPAN Request Tracker at
-    <http://rt.cpan.org/>
+    Please report bugs using the CPAN Request Tracker at http://rt.cpan.org/
 
 AUTHOR
     David Bartle <captindave@gmail.com>

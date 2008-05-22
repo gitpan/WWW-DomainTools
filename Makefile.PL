@@ -2,17 +2,18 @@
 use ExtUtils::MakeMaker;
 WriteMakefile
 (
+          'PL_FILES' => {},
+          'INSTALLDIRS' => 'site',
           'NAME' => 'WWW::DomainTools',
+          'EXE_FILES' => [],
           'VERSION_FROM' => 'lib/WWW/DomainTools.pm',
           'PREREQ_PM' => {
-                           'HTTP::Request' => '0',
-                           'LWP::UserAgent' => '0',
+                           'YAML' => 0,
+                           'LWP::UserAgent' => 0,
+                           'URI::Escape' => 0,
+                           'XML::Simple' => 0,
                            'Test::Simple' => '0.44',
-                           'URI::Escape' => '0',
-                           'XML::Simple' => '0',
-                           'YAML' => '0'
-                         },
-          'INSTALLDIRS' => 'site',
-          'PL_FILES' => {}
+                           'HTTP::Request' => 0
+                         }
         )
 ;

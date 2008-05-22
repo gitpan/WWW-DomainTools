@@ -1,10 +1,12 @@
 ---
 name: WWW-DomainTools
-version: 0.09
+version: 0.11
 author:
   - 'David Bartle <captindave@gmail.com>'
 abstract: Interface with domaintools.com XML API
 license: perl
+resources:
+  license: http://dev.perl.org/licenses/
 requires:
   LWP::UserAgent: 0
   URI::Escape: 0
@@ -19,11 +21,14 @@ build_requires:
 provides:
   WWW::DomainTools:
     file: lib/WWW/DomainTools.pm
-    version: 0.09
+    version: 0.11
   WWW::DomainTools::NameSpinner:
     file: lib/WWW/DomainTools/NameSpinner.pm
-    version: 1.01
+    version: 1.03
   WWW::DomainTools::SearchEngine:
     file: lib/WWW/DomainTools/SearchEngine.pm
-    version: 0.04
-generated_by: Module::Build version 0.26
+    version: 0.06
+generated_by: Module::Build version 0.2806
+meta-spec:
+  url: http://module-build.sourceforge.net/META-spec-v1.2.html
+  version: 1.2

@@ -5,14 +5,16 @@ use Carp;
 use LWP::UserAgent;
 use XML::Simple ();
 use URI::Escape;
+use WWW::DomainTools::SearchEngine;
+use WWW::DomainTools::NameSpinner;
 
 BEGIN {
     use Exporter ();
     use vars qw ($VERSION @ISA @EXPORT @EXPORT_OK %EXPORT_TAGS);
-    $VERSION     = "0.09";
+    $VERSION     = "0.11";
     @ISA         = qw (Exporter);
     @EXPORT      = qw ();
-    @EXPORT_OK   = qw ();
+    @EXPORT_OK   = qw (search_engine name_spinner);
     %EXPORT_TAGS = ();
 }
 
@@ -32,14 +34,39 @@ WWW::DomainTools - DomainTools.com XML API interface
  my $repsonse = search_engine(
  	q => 'example.com',
 	ext => 'COM|NET|ORG|INFO'
+        key => '12345',
+        partner => 'yourname',
+        customer_ip => '1.2.3.4'
  );
 
  # OO
- my $obj = WWW::DomainTools->new(
-                  key => '12345',
-                  partner => 'yourname',
-                  customer_ip => '1.2.3.4'
+ my $obj = WWW::DomainTools::SearchEngine->new(
+        key => '12345',
+        partner => 'yourname',
+        customer_ip => '1.2.3.4'
  );
+ my $response = $obj->request(
+ 	q => 'example.com',
+	ext => 'COM|NET|ORG|INFO'
+ );
+
+
+ # Custom LWP user agent
+ my $ua = LWP::UserAgent->new;
+ $ua->env_proxy(true);
+
+ my $obj = WWW::DomainTools::SearchEngine->new(
+        key => '12345',
+        partner => 'yourname',
+        customer_ip => '1.2.3.4',
+        lwp_ua => $ua
+ );
+ my $response = $obj->request(
+ 	q => 'example.com',
+	ext => 'COM|NET|ORG|INFO'
+ );
+
+ 
 
 =head1 DESCRIPTION
 
@@ -58,6 +85,8 @@ Allowed:
  - search_engine
  - name_spinner
 
+=head1 METHODS
+
 =cut
 
 sub new {
@@ -68,7 +97,7 @@ sub new {
 
     my $self = bless( {}, $class );
 
-    $self->{_ua}         = LWP::UserAgent->new;
+    $self->{_ua}         = $parameters{lwp_ua} || LWP::UserAgent->new;
     $self->{_xml}        = XML::Simple->new;
     $self->{_format}     = $parameters{format} || DEFAULT_FORMAT;
     $self->{_ua_timeout} = $parameters{timeout} || 10;
@@ -89,6 +118,58 @@ sub new {
 
     return $self;
 
+}
+
+=over 4
+
+=item search_engine ( url parameters hash )
+
+The keys and values expected are documented on the Domain Tools website. In 
+addition the "search engine" specific parameters, you need to pass the
+required parameters as documented in the L<WWW::DomainTools::SearchEngine> new()
+method.
+
+If the request is successful, the return value is either a hash reference or 
+a string depending on the value of the 'format' parameter to the constructor.
+
+See the documentation for the new() method for more detailed information
+about 'format' and other standard parameters.
+
+If the HTTP request fails, this method will die.
+
+=back
+
+=cut
+
+sub search_engine {
+	my $api = WWW::DomainTools::SearchEngine->new(@_);
+	return $api->request();
+}
+
+=over 4
+
+=item name_spinner ( url parameters hash )
+
+The keys and values expected are documented on the Domain Tools website. In 
+addition the "name spinner" specific parameters, you need to pass the
+required parameters as documented in the L<WWW::DomainTools::NameSpinner> new()
+method.
+
+If the request is successful, the return value is either a hash reference or 
+a string depending on the value of the 'format' parameter to the constructor.
+
+See the documentation for the new() method for more detailed information
+about 'format' and other standard parameters.
+
+If the HTTP request fails, this method will die.
+
+=back
+
+=cut
+
+sub name_spinner {
+	my $api = WWW::DomainTools::NameSpinner->new(@_);
+	return $api->request();
 }
 
 sub request {
